@@ -8,7 +8,8 @@
     >
       Play
     </button>
-    <BlockComponent v-if="isPlaying" :delay="delay" />
+    <BlockComponent v-if="isPlaying" @endTimer="endGame" :delay="delay" />
+    <p v-if="showResults">Reaction time {{ reactionTime }}</p>
   </div>
 </template>
 
@@ -23,12 +24,19 @@ export default {
     start() {
       this.delay = 2000 + Math.random() * 500;
       this.isPlaying = true;
+      this.showResults = false;
+    },
+    endGame(reactionTime) {
+      this.reactionTime = reactionTime;
+      this.isPlaying = false;
+      this.showResults = true;
     },
   },
   data() {
     return {
       isPlaying: false,
       delay: null,
+      reactionTime: 0,
     };
   },
 };
